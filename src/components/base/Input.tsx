@@ -39,7 +39,7 @@ const Input: React.FC<InputProps> = ({
     <div
       className={`
         outline outline-1 outline-slate-300
-        rounded-md
+        rounded-md m-1
         ${borderStyles}
         ${className}
       `}
@@ -48,7 +48,7 @@ const Input: React.FC<InputProps> = ({
       <input
         className={`
           focus:outline-none
-          px-2 py-1
+          px-1 py-[0.5]
           bg-transparent
         `}
         type={type}
