@@ -16,7 +16,7 @@ const borderlessStyles = `
   outline-none outline-0
   has-[:focus]:outline
   has-[:focus]:outline-1
-  has-[:focus]:outline-slate-300
+  has-[:focus]:outline-slate-400
 `;
 
 const Input: React.FC<InputProps> = ({
@@ -38,7 +38,6 @@ const Input: React.FC<InputProps> = ({
   return (
     <div
       className={`
-        outline outline-1 outline-slate-300
         rounded-md m-1
         ${borderStyles}
         ${className}
