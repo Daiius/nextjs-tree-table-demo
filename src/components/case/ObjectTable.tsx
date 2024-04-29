@@ -26,11 +26,13 @@ const ObjectTable = <T extends object,>({
   return (
     <Table>
       <TableHeader>
-        {keys.map(key => 
-          <TableHeaderCell key={key}>
-            {key}
-          </TableHeaderCell>
-        )}
+        <TableRow>
+          {keys.map(key => 
+            <TableHeaderCell key={key}>
+              {key}
+            </TableHeaderCell>
+          )}
+        </TableRow>
       </TableHeader>
       <TableBody>
         {data.map((d: T) =>

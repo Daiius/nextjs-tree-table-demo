@@ -1,14 +1,12 @@
 import React, { HTMLAttributes } from 'react';
 
 export type TableHeaderCellProps =
-  & React.PropsWithChildren
-  & {
-    className?: string;
-  };
+  HTMLAttributes<HTMLTableCellElement>;
 
 export const TableHeaderCell: React.FC<TableHeaderCellProps> = ({
   children,
   className,
+  ...props
 }) => (
   <th
     className={`
@@ -16,6 +14,7 @@ export const TableHeaderCell: React.FC<TableHeaderCellProps> = ({
       bg-slate-200
       ${className}
     `}
+    {...props}
   >
     {children}
   </th>
@@ -32,12 +31,14 @@ export const TableHeader: React.FC<React.PropsWithChildren> = ({
 export const TableCell: React.FC<HTMLAttributes<HTMLTableCellElement>> = ({
   children,
   className,
+  ...props
 }) => (
   <td
     className={`
       border border-1 border-slate-400
       ${className}
     `}
+    {...props}
   >
     {children}
   </td>
@@ -46,12 +47,14 @@ export const TableCell: React.FC<HTMLAttributes<HTMLTableCellElement>> = ({
 export const TableRow: React.FC<HTMLAttributes<HTMLTableRowElement>> = ({
   children,
   className,
+  ...props
 }) => (
   <tr
     className={`
       group-[.table-stripe]:even:bg-slate-100
       ${className}
     `}
+    {...props}
   >
     {children}
   </tr>
@@ -71,6 +74,7 @@ const Table: React.FC<TableProps> = ({
   children,
   stripe = false,
   className,
+  ...props
 }) => (
   <table
     className={`
@@ -78,6 +82,7 @@ const Table: React.FC<TableProps> = ({
       ${stripe && 'group table-stripe'}
       ${className}
     `}
+    {...props}
   >
     {children}
   </table>
