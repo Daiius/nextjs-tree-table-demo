@@ -11,26 +11,39 @@ export type ObjectTableProps<T> = {
   onDataChange: (id: number|string, key: string, value: string) => void;
   id: (data: T) => number | string;
   keysToExclude?: string[];
+  headerCell?: (key: keyof T) => React.ReactNode;
 }
+
+type DefaultHeaderCellProps = {
+  label: string;
+}
+const DefaultHeaderCell: React.FC<DefaultHeaderCellProps> = ({
+  label,
+}) => (
+  <TableHeaderCell>
+    {label}
+  </TableHeaderCell>
+);
 
 const ObjectTable = <T extends object,>({
   data,
   onDataChange,
   id,
   keysToExclude = [],
+  headerCell,
 }: ObjectTableProps<T>): React.ReactNode => {
   
   const keys = Object.keys(data[0])
-    .filter(key => !keysToExclude.includes(key));
+    .filter(key => !keysToExclude.includes(key)) as (keyof T)[];
 
   return (
     <Table>
       <TableHeader>
         <TableRow>
           {keys.map(key => 
-            <TableHeaderCell key={key}>
-              {key}
-            </TableHeaderCell>
+            headerCell != null
+            ? headerCell(key)
+            : <DefaultHeaderCell label={key.toString()}/>
           )}
         </TableRow>
       </TableHeader>

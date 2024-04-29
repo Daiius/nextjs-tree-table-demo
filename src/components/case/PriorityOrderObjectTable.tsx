@@ -1,11 +1,9 @@
 import React from 'react';
-import Table, { 
-  TableHeader, TableHeaderCell,
-  TableBody, TableRow, TableCell,
-} from '../base/Table';
+import ObjectTable from '../case/ObjectTable';
 import Input from '../base/Input';
 import { usePriorityOrder } from '@/hooks/usePriorityOrder';
 import PriorityOrderMark from '../base/PriorityOrderMark';
+import { TableHeaderCell } from '../base/Table';
 
 
 export type PriorityOrderObjectTableProps<T> = {
@@ -44,46 +42,25 @@ const PriorityOrderObjectTable = <T extends object,>({
   }
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          {keys.map(key => 
-            <TableHeaderCell
-              key={key.toString()}
-              onClick={() => onToggle(key)}
-            >
-              <div className="flex flex-row">
-                <div>{key.toString()}</div>
-                <PriorityOrderMark
-                  priority={orders[key]?.priority}
-                  orderType={orders[key]?.orderType}
-                />
-              </div>
-            </TableHeaderCell>
-          )}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {orderedData.map((d: T) =>
-          <TableRow key={id(d)}>
-            {Object.entries(d)
-              .filter(([key, _]) => !keysToExclude.includes(key))
-              .map(([key, value]) =>
-                <TableCell key={key}>
-                  <Input
-                    borderless
-                    value={value}
-                    onChange={e => onDataChange(
-                      id(d), key, e.target.value
-                    )}
-                  />
-                </TableCell>
-              )
-            }
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
+    <ObjectTable<T>
+      data={orderedData}
+      id={id}
+      onDataChange={onDataChange}
+      keysToExclude={keysToExclude}
+      headerCell={(key) =>
+        <TableHeaderCell
+          onClick={() => onToggle(key)}
+        >
+          <div className="flex flex-row">
+            <div>{key.toString()}</div>
+            <PriorityOrderMark
+              priority={orders[key]?.priority}
+              orderType={orders[key]?.orderType}
+            />
+          </div>
+        </TableHeaderCell>
+      }
+    />
   );
 };
 
