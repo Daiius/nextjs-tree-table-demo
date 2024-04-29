@@ -1,15 +1,13 @@
 import Button from "@/components/base/Button";
 import Image from "next/image";
 
-import { bootstrapIcons } from "./font";
 import PriorityOrderMark from "@/components/base/PriorityOrderMark";
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Button className={bootstrapIcons.className}>
+      <Button>
         Hello, Next.js!
-        &#xF238;
         <PriorityOrderMark/>
       </Button>
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
