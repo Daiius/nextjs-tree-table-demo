@@ -1,6 +1,5 @@
 import React from 'react';
 import ObjectTable from '../case/ObjectTable';
-import Input from '../base/Input';
 import { usePriorityOrder } from '@/hooks/usePriorityOrder';
 import PriorityOrderMark from '../base/PriorityOrderMark';
 import { TableHeaderCell } from '../base/Table';
@@ -11,6 +10,7 @@ export type PriorityOrderObjectTableProps<T> = {
   onDataChange: (id: number|string, key: string, value: string) => void;
   id: (data: T) => number | string;
   keysToExclude?: string[];
+  headerCell?: (key: keyof T) => React.ReactNode;
 }
 
 const PriorityOrderObjectTable = <T extends object,>({
@@ -18,12 +18,15 @@ const PriorityOrderObjectTable = <T extends object,>({
   onDataChange,
   id,
   keysToExclude = [],
+  headerCell,
 }: PriorityOrderObjectTableProps<T>): React.ReactNode => {
   
-  const keys = Object.keys(data[0])
-    .filter(key => !keysToExclude.includes(key)) as (keyof T)[];
-
-  const { orders, onChange, orderedData } = usePriorityOrder({ data });
+  const { 
+    orders, 
+    onChange, 
+    orderedData 
+  } = usePriorityOrder({ data });
+  
   console.log(orders);
 
   const onToggle = (key: keyof T) => {
@@ -48,9 +51,7 @@ const PriorityOrderObjectTable = <T extends object,>({
       onDataChange={onDataChange}
       keysToExclude={keysToExclude}
       headerCell={(key) =>
-        <TableHeaderCell
-          onClick={() => onToggle(key)}
-        >
+        <TableHeaderCell onClick={() => onToggle(key)}>
           <div className="flex flex-row">
             <div>{key.toString()}</div>
             <PriorityOrderMark
