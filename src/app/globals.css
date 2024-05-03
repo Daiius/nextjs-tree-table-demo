@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-$bootstrap-icons-font-dir: "~bootstrap-icons/font/fonts";
 @import "~bootstrap-icons/font/bootstrap-icons";
 
 :root {

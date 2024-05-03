@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import Header from '@/components/domain/Header';
+
 import { inter } from '@/app/font';
 import "./globals.css";
 
@@ -20,6 +22,7 @@ export default function RootLayout({
           ${inter.className}
         `}
       >
+        <Header />
         {children}
       </body>
     </html>
