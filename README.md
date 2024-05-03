@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Tree Table Demo
+木構造と表の二つの性質を持つデータを表示・編集する Web アプリケーションのデモ
 
-## Getting Started
+React + Tailwind CSS を用いた UI 部分と、
+Drizzle ORM を用いたバックエンド部分からなります
 
-First, run the development server:
+## フロントエンド
+React + Tailwind CSS を用いています
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Bootstrap Icons によるアイコンフォントを使用します
+<details>
+<summary>
+現在の設定ではパフォーマンスは良くなさそう...
+</summary>
+クライアント側で 100 kB 以上の woff2 ファイル全体が読み込まれるようです、開発中に違うアイコンをすぐに試せるのでこの方法を用いています...
+</details>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### コンポーネント
+#### Table
+HTML の table 関連の要素にスタイルを付けたもの
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+#### ObjectTable
+オブジェクトの配列を渡すと、列名などをいい感じに Table コンポーネントを用いて表示します
 
-## Learn More
+headerCell や dataCell プロパティを指定することで、th, td 要素の中に配置するコンポーネントを外部から変更できます
 
-To learn more about Next.js, take a look at the following resources:
+#### PriorityOrderObjectTable
+ObjectTable に、複数の列を用いて並び替える機能を追加したもの
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+#### PriorityOrderFilterObjectTable
+ObjectTable に、
+- 複数の列を用いて並び替える機能
+- 複数の列のデータ値を用いてフィルタリングする機能
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+を追加したもの
 
-## Deploy on Vercel
+## バックエンド
+Next.js の App Router 機能を用いてルーティングを行います
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Drizzle による MySQL データベースのマイグレーション機能と、ORM 機能を用いています
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Web API
+
+### DB migration & ORM
