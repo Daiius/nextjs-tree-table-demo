@@ -4,19 +4,15 @@ export type UseFilterArgs<T> = {
   data: T[];
 }
 
-/**
- * フィルター結果返却用のデータ型
- * {
- *   '列名1': ['値1', '値2', ...],
- *   ...
- * }
- */
-
+export type FilterDict<T> = {
+  [key in keyof T]: {[value: string]: boolean}
+}
 
 export type UseFilterResult<T> = {
   filterArray: {[key in keyof T]: string[]};
   filteredData: T[];
   onFilterDictChange: (key: keyof T, value: string, newChecked: boolean) => void;
+  filterDict: FilterDict<T>;
 }
 
 export const useFilter = <T extends object>(
@@ -26,10 +22,6 @@ export const useFilter = <T extends object>(
   const keys = [...new Set(
     data.flatMap(d => Object.keys(d))
   )] as (keyof T)[];
-
-  type FilterDict<T> = {
-    [key in keyof T]: {[value: string]: boolean}
-  }
 
   const [filterDict, setFilterDict] =
     React.useState<FilterDict<T>>(
@@ -83,5 +75,6 @@ export const useFilter = <T extends object>(
     filterArray,
     filteredData,
     onFilterDictChange,
+    filterDict,
   };
 };

@@ -1,16 +1,20 @@
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import { OrderType } from '@/hooks/usePriorityOrder';
 
-export type PriorityOrderMarkProps = {
-  priority?: number;
-  orderType?: OrderType;
-}
+export type PriorityOrderMarkProps = 
+  & HTMLAttributes<HTMLDivElement>
+  & {
+    priority?: number;
+    orderType?: OrderType;
+  };
 
 const PriorityOrderMark: React.FC<PriorityOrderMarkProps> = ({
   priority,
   orderType,
+  className,
+  ...props
 }) => (
-  <div className="flex flex-row">
+  <div className={`flex flex-row ${className}`} {...props}>
     <div className="flex flex-col">
       {orderType === 'Ascending'
         ? <i className="bi bi-caret-up-fill text-xs h-[0.75rem] font-normal"/>

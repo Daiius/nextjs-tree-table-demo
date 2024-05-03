@@ -10,7 +10,6 @@ export type PriorityOrderObjectTableProps<T> = {
   onDataChange: (id: number|string, key: string, value: string) => void;
   id: (data: T) => number | string;
   keysToExclude?: string[];
-  headerCell?: (key: keyof T) => React.ReactNode;
 }
 
 const PriorityOrderObjectTable = <T extends object,>({
@@ -18,7 +17,6 @@ const PriorityOrderObjectTable = <T extends object,>({
   onDataChange,
   id,
   keysToExclude = [],
-  headerCell,
 }: PriorityOrderObjectTableProps<T>): React.ReactNode => {
   
   const { 
