@@ -1,8 +1,8 @@
 import type { Preview, ReactRenderer } from "@storybook/react";
 import { withThemeByClassName } from '@storybook/addon-themes';
 import { withThemeByDataAttribute } from "@storybook/addon-themes";
-//import './style.css';
-import '../src/app/globals.css';
+import './style.css';
+//import '../src/app/globals.css';
 
 const preview: Preview = {
   parameters: {
@@ -15,13 +15,13 @@ const preview: Preview = {
   },
   decorators: [
     withThemeByClassName<ReactRenderer>({
-      themes: { light: 'light', dark: 'dark'},
+      themes: { light: '', dark: 'dark'},
       defaultTheme: 'light',
     })
-    // withThemeByDataAttribute<ReactRenderer>({
-    //   themes: { light: 'light', dark: 'dark' },
-    //   defaultTheme: 'light',
-    // })
+    //withThemeByDataAttribute<ReactRenderer>({
+    //  themes: { light: 'light', dark: 'dark' },
+    //  defaultTheme: 'light',
+    //})
   ]
 };
 
