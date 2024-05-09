@@ -1,5 +1,5 @@
 import React from 'react';
-import ObjectTable from '../case/ObjectTable';
+import ObjectTable, { ObjectTableProps } from '../case/ObjectTable';
 import { usePriorityOrder } from '@/hooks/usePriorityOrder';
 import PriorityOrderMark from '../base/PriorityOrderMark';
 import { TableHeaderCell } from '../base/Table';
@@ -7,26 +7,21 @@ import { TableHeaderCell } from '../base/Table';
 import { useFilter } from '@/hooks/useFilter';
 import FilterDropdown from '../base/FilterDropdown';
 
-export type PriorityOrderFilterObjectTableProps<T> = {
-  data: T[];
-  onDataChange: (id: number|string, key: string, value: string) => void;
-  id: (data: T) => number | string;
-  keysToExclude?: string[];
-}
+export type PriorityOrderFilterObjectTableProps<T> = 
+  & ObjectTableProps<T>;
 
 const PriorityOrderFilterObjectTable= <T extends object,>({
   data,
+  keys,
   onDataChange,
   id,
-  keysToExclude,
 }: PriorityOrderFilterObjectTableProps<T>): React.ReactNode => {
 
   const {
     filteredData, 
     onFilterDictChange, 
-    filterArray,
     filterDict,
-  } = useFilter({ data });
+  } = useFilter({ data, keys });
 
   const { 
     orders, 
@@ -52,9 +47,9 @@ const PriorityOrderFilterObjectTable= <T extends object,>({
   return (
     <ObjectTable<T>
       data={orderedData}
+      keys={keys}
       onDataChange={onDataChange}
       id={id}
-      keysToExclude={keysToExclude}
       headerCell={(key) =>
         <TableHeaderCell>
           <div className="flex flex-row">

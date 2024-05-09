@@ -27,13 +27,13 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
   const filteredDict: {[key: string]: boolean} = 
     filterString
     ? Object.fromEntries(
-        Object.entries(valueDict)
+        Object.entries(valueDict ?? {})
           .filter(([value, _]) => value.includes(filterString))
       )
     : {...valueDict};
   
   const isFilterEmpty: boolean =
-      Object.values(valueDict).every(b => !b);
+      Object.values(valueDict ?? {}).every(b => !b);
 
   return (
     <div 
@@ -75,13 +75,13 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
               text-slate-500'
             >
               {Object.keys(filteredDict).length}/
-              {Object.keys(valueDict).length} 件
+              {Object.keys(valueDict ?? {}).length} 件
             </span>
             <span className='
               text-xs mt-1
               text-slate-500'
             >
-              {Object.values(valueDict).filter(v => v).length} 選択
+              {Object.values(valueDict ?? {}).filter(v => v).length} 選択
             </span>
           </div>
           <div className='

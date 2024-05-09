@@ -2,6 +2,7 @@ import React from 'react';
 
 export type UseFilterArgs<T> = {
   data: T[];
+  keys: (keyof T)[];
 }
 
 export type FilterDict<T> = {
@@ -15,13 +16,10 @@ export type UseFilterResult<T> = {
   filterDict: FilterDict<T>;
 }
 
-export const useFilter = <T extends object>(
-  { data }: UseFilterArgs<T>
-): UseFilterResult<T> => {
-
-  const keys = [...new Set(
-    data.flatMap(d => Object.keys(d))
-  )] as (keyof T)[];
+export const useFilter = <T extends object>({ 
+  data,
+  keys,
+}: UseFilterArgs<T>): UseFilterResult<T> => {
 
   const [filterDict, setFilterDict] =
     React.useState<FilterDict<T>>(
@@ -29,7 +27,8 @@ export const useFilter = <T extends object>(
         [
           key as keyof T,
           Object.fromEntries(
-            data.map(d => [d[key], false])
+            data.filter(d => d[key] != null)
+              .map(d => [d[key], false])
           )
         ]
       ) 
@@ -51,7 +50,7 @@ export const useFilter = <T extends object>(
       .map(([key, vdict]) => [
         key,
         Object.entries(vdict)
-          .filter(([_, checked]) => checked)
+          .filter(([value, checked]) => value != null && checked)
           .map(([value, _]) => value)
     ])
   ) as {[key in keyof T]: string[]};
@@ -62,6 +61,8 @@ export const useFilter = <T extends object>(
     console.log(filteredData);
     console.log(key);
     console.log(filterArray);
+
+    if (filterArray[key] == null) continue;
     if (filterArray[key].length === 0) continue;
 
     filteredData = filteredData.filter(d => {

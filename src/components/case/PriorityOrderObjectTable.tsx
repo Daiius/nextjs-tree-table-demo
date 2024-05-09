@@ -1,22 +1,18 @@
 import React from 'react';
-import ObjectTable from '../case/ObjectTable';
+import ObjectTable, { ObjectTableProps } from '../case/ObjectTable';
 import { usePriorityOrder } from '@/hooks/usePriorityOrder';
 import PriorityOrderMark from '../base/PriorityOrderMark';
 import { TableHeaderCell } from '../base/Table';
 
 
-export type PriorityOrderObjectTableProps<T> = {
-  data: T[];
-  onDataChange: (id: number|string, key: string, value: string) => void;
-  id: (data: T) => number | string;
-  keysToExclude?: string[];
-}
+export type PriorityOrderObjectTableProps<T> =
+  & ObjectTableProps<T>; 
 
 const PriorityOrderObjectTable = <T extends object,>({
   data,
+  keys,
   onDataChange,
   id,
-  keysToExclude = [],
 }: PriorityOrderObjectTableProps<T>): React.ReactNode => {
   
   const { 
@@ -45,9 +41,9 @@ const PriorityOrderObjectTable = <T extends object,>({
   return (
     <ObjectTable<T>
       data={orderedData}
+      keys={keys}
       id={id}
       onDataChange={onDataChange}
-      keysToExclude={keysToExclude}
       headerCell={(key) =>
         <TableHeaderCell onClick={() => onToggle(key)}>
           <div className="flex flex-row">
