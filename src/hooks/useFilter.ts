@@ -13,6 +13,7 @@ export type UseFilterResult<T> = {
   filterArray: {[key in keyof T]: string[]};
   filteredData: T[];
   onFilterDictChange: (key: keyof T, value: string, newChecked: boolean) => void;
+  onValueChange: (key: keyof T, oldValue: string|undefined, newValue: string|undefined) => void;
   filterDict: FilterDict<T>;
 }
 
@@ -35,6 +36,18 @@ export const useFilter = <T extends object>({
     ) as FilterDict<T>
   );
 
+  // キーが追加されたとき、filterDictにエントリを追加する
+  const newFilterDictEntry: FilterDict<T> = {} as FilterDict<T>;
+  for (const key of keys) {
+    if (key in filterDict) continue;
+    newFilterDictEntry[key] = Object.fromEntries(
+      [...new Set(data.flatMap(d => d[key]))].map(value => [value, false])
+    );
+  }
+  if (Object.keys(newFilterDictEntry).length > 0) {
+    setFilterDict({...filterDict, ...newFilterDictEntry});
+  }
+
   const onFilterDictChange = (key: keyof T, value: string, newChecked: boolean) => {
     setFilterDict({
       ...filterDict,
@@ -55,12 +68,49 @@ export const useFilter = <T extends object>({
     ])
   ) as {[key in keyof T]: string[]};
 
+  const onValueChange = (key: keyof T, oldValue: string|undefined, newValue: string|undefined) => {
+    if (key in filterDict && oldValue != null) {
+      // 既存のキーに対して、undefinedでない値が変更されるとき...
+      // 変更前のエントリは削除することになる
+      const filterDictEntryWithoutOldValue = {
+        ...filterDict,
+        [key]: {
+          ...Object.keys(filterDict[key])
+                .filter(value => value != oldValue)
+                .map(value => ({ [value]: filterDict[key][value] }))
+                .reduce((acc, curr) => ({ ...acc, ...curr }))
+        }
+      };
+
+      if (newValue == null) {
+        // 新しい値がundefinedならば、単純にエントリを削除する
+        setFilterDict(filterDictEntryWithoutOldValue);
+      } else {
+        // それ以外の場合は、エントリを入れ替える
+        setFilterDict({
+          ...filterDict, 
+          [key]: {
+            ...filterDictEntryWithoutOldValue,
+            [newValue]: true,
+          }
+        });
+      }
+    } else {
+      // keyがfilterDict内に無い、またはoldValueがundefinedのとき、
+      // newValueがnullならばなにもせず、
+      // newValueが not null ならば新しいエントリを追加する
+      if (newValue != null) {
+        setFilterDict({ ...filterDict, [key]: { [newValue]: false }});
+      }
+    }
+  };
+
   var filteredData = [...data];
   
   for (const key of keys) {
-    console.log(filteredData);
-    console.log(key);
-    console.log(filterArray);
+    //console.log(filteredData);
+    //console.log(key);
+    //console.log(filterArray);
 
     if (filterArray[key] == null) continue;
     if (filterArray[key].length === 0) continue;
@@ -76,6 +126,8 @@ export const useFilter = <T extends object>({
     filterArray,
     filteredData,
     onFilterDictChange,
+    onValueChange,
     filterDict,
   };
 };
+

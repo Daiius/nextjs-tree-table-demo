@@ -10,8 +10,9 @@ export const TableHeaderCell: React.FC<TableHeaderCellProps> = ({
 }) => (
   <th
     className={`
-      border border-1 border-slate-400
-      bg-slate-200
+      border border-1 
+      border-slate-400 bg-slate-500
+      dark:border-slate-500 dark:bg-slate-600
       ${className}
     `}
     {...props}
