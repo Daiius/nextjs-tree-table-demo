@@ -1,0 +1,32 @@
+services:
+  nextjs:
+    build:
+      dockerfile: "./Dockerfile.nextjs"
+    container_name: nextjs-tree-table-demo-nextjs-test
+    volumes:
+      - ./:/app
+    command: "bash -c 'npx drizzle-kit push:mysql && npx jest --watchAll'"
+    tty: true
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: mysql:8.4
+    container_name: nextjs-tree-table-demo-database-test
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword-nextjs
+      MYSQL_DATABASE: database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    healthcheck:
+      test: ["CMD", "mysql", "-u", "user", "-ppassword", "database", "-e", "select 1;"]
+      interval: 2s
+      timeout: 30s
+      retries: 5
+      start_period: 5s
+  
+networks:
+  default:
+    name: nextjs-tree-table-demo-test-network
+
