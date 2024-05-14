@@ -9,6 +9,8 @@ const config: StorybookConfig = {
     "@chromatic-com/storybook",
     "@storybook/addon-interactions",
     "@storybook/addon-themes",
+    "@storybook/addon-console",
+    //"@storybook/preset-typescript",
   ],
   framework: {
     name: "@storybook/nextjs",
@@ -21,5 +23,9 @@ const config: StorybookConfig = {
     from: "../public",
     to: "public",
   }],
+  webpackFinal: async (config) => {
+    config.devtool = 'inline-source-map';
+    return config;
+  }
 };
 export default config;
