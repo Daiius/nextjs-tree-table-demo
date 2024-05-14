@@ -1,4 +1,3 @@
-import { propagateServerField } from 'next/dist/server/lib/render-server';
 import React from 'react';
 
 export type ButtonSizes =
@@ -47,3 +46,4 @@ const Button: React.FC<ButtonProps> = ({
 }
 
 export default Button;
+

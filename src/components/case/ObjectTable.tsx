@@ -9,7 +9,7 @@ import Input from '../base/Input';
 export type ObjectTableProps<T> = {
   data: T[];
   keys: (keyof T)[];
-  onDataChange: (id: number|string, key: string, value: string) => void;
+  onDataChange: (id: number|string, key: string, oldValue: string, newValue: string) => void;
   id: (data: T) => number | string;
   headerCell?: (key: keyof T) => React.ReactNode;
 }
@@ -51,7 +51,7 @@ const ObjectTable = <T extends object,>({
                 borderless
                 value={d[key] as any}
                 onChange={e => onDataChange(
-                  id(d), key.toString(), e.target.value
+                  id(d), key.toString(), d[key] as any, e.target.value
                 )}
               />
             </TableCell>

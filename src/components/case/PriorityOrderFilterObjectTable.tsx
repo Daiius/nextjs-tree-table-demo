@@ -20,6 +20,7 @@ const PriorityOrderFilterObjectTable= <T extends object,>({
   const {
     filteredData, 
     onFilterDictChange, 
+    onValueChange,
     filterDict,
   } = useFilter({ data, keys });
 
@@ -48,7 +49,10 @@ const PriorityOrderFilterObjectTable= <T extends object,>({
     <ObjectTable<T>
       data={orderedData}
       keys={keys}
-      onDataChange={onDataChange}
+      onDataChange={(id, key, oldValue, newValue) => {
+        onDataChange(id, key, oldValue, newValue);
+        onValueChange(key as keyof T, oldValue, newValue);
+      }}
       id={id}
       headerCell={(key) =>
         <TableHeaderCell>
