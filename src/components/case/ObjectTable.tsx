@@ -9,7 +9,7 @@ import Input from '../base/Input';
 export type ObjectTableProps<T> = {
   data: T[];
   keys: (keyof T)[];
-  onDataChange: (id: number|string, key: string, oldValue: string, newValue: string) => void;
+  onDataChange: (id: number|string, key: string, newValue: string, oldValue: string) => void;
   id: (data: T) => number | string;
   headerCell?: (key: keyof T) => React.ReactNode;
 }
