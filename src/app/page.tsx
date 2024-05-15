@@ -2,9 +2,9 @@
 
 import React from 'react';
 import Button from "@/components/base/Button";
-import Image from "next/image";
+//import Image from "next/image";
 
-import PriorityOrderMark from "@/components/base/PriorityOrderMark";
+//import PriorityOrderMark from "@/components/base/PriorityOrderMark";
 import PriorityOrderFilterObjectTable from '@/components/case/PriorityOrderFilterObjectTable';
 
 type Data = {
@@ -34,7 +34,7 @@ export default function Home() {
       <PriorityOrderFilterObjectTable<Data>
         data={data}
         keys={[...keys, 'テスト' as keyof Data]}
-        onDataChange={(id, key, oldValue, newValue) => setData(
+        onDataChange={(id, key, newValue) => setData(
           data.map(d => d.id === id ? { ...d, [key]: newValue} : d)
         )}
         id={(d: Data) => d.id}

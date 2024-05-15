@@ -21,8 +21,6 @@ const PriorityOrderObjectTable = <T extends object,>({
     orderedData 
   } = usePriorityOrder({ data });
   
-  console.log(orders);
-
   const onToggle = (key: keyof T) => {
     console.log(key);
     switch (orders[key]?.orderType) {
@@ -60,3 +58,4 @@ const PriorityOrderObjectTable = <T extends object,>({
 };
 
 export default PriorityOrderObjectTable;
+

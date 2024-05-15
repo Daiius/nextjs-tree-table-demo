@@ -1,5 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
-import PriorityOrderObjectTable from '@/components/case/PriorityOrderObjectTable';
+import PriorityOrderObjectTable, {
+	PriorityOrderObjectTableProps,
+} from '@/components/case/PriorityOrderObjectTable';
 import React from 'react';
 
 
@@ -18,30 +20,32 @@ const keys = [...new Set(
 )].filter(key => key != 'id') as (keyof Data)[];
 
 const meta: Meta<typeof PriorityOrderObjectTable<Data>> = {
-  component: PriorityOrderObjectTable,
+  component: PriorityOrderObjectTable<Data>,
   title: 'Case/PriorityOrderObjectTable',
   tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
-  args: { keys }
+	args: { keys, id: d => d.id },
 }
 export default meta;
 
-type Story = StoryObj<typeof PriorityOrderObjectTable>;
+type Story = StoryObj<typeof PriorityOrderObjectTable<Data>>;
+
+const PriorityOrderObjectTableWithHooks: React.FC<PriorityOrderObjectTableProps<Data>> = (props) => {
+	const [data, setData] = React.useState<Data[]>(dataToShow);
+	return (
+		<PriorityOrderObjectTable<Data>
+			{...props}
+			data={data}
+			onDataChange={(id, key, value) => setData(
+				data.map(d => d.id === id ? { ...d, [key]: value} : d)
+			)}
+		/>
+	);
+};
 
 export const Example: Story = {
-  render: ({ keys }) => {
-    const [data, setData] = React.useState<Data[]>(dataToShow);
-    return (
-      <PriorityOrderObjectTable<Data>
-        data={data}
-        keys={keys}
-        onDataChange={(id, key, value) => setData(
-          data.map(d => d.id === id ? { ...d, [key]: value} : d)
-        )}
-        id={(d: Data) => d.id}
-      />
-    );
-  },
+	render: args => <PriorityOrderObjectTableWithHooks {...args} />,
 }
+
