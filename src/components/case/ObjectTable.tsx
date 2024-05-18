@@ -10,7 +10,7 @@ export type ObjectTableProps<T> = {
   data: T[];
   keys: (keyof T)[];
   onDataChange: (id: number|string, key: string, newValue: string, oldValue: string) => void;
-  id: (data: T) => number | string;
+  identifier: (data: T) => number | string;
   headerCell?: (key: keyof T) => React.ReactNode;
 }
 
@@ -29,7 +29,7 @@ const ObjectTable = <T extends object,>({
   data,
   keys,
   onDataChange,
-  id,
+  identifier,
   headerCell,
 }: ObjectTableProps<T>): React.ReactNode => (
   <Table>
@@ -44,14 +44,14 @@ const ObjectTable = <T extends object,>({
     </TableHeader>
     <TableBody>
       {data.map((d: T) =>
-        <TableRow key={id(d)}>
+        <TableRow key={identifier(d)}>
           {keys.map(key =>
             <TableCell key={key.toString()}>
               <Input
                 borderless
                 value={d[key] as any}
                 onChange={e => onDataChange(
-                  id(d), key.toString(), d[key] as any, e.target.value
+                  identifier(d), key.toString(), d[key] as any, e.target.value
                 )}
               />
             </TableCell>
