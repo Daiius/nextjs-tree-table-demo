@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import Table, {
 	TableRow, TableCell,
 	TableHeader, TableHeaderCell,
@@ -76,6 +77,7 @@ function TableFragment<T>({
 };
 
 export type GroupTableProps<T> = 
+	& React.ComponentProps<'table'>
 	& {
 		dataGroup: { [groupKey: string]: T[] | undefined };
 		keys: (keyof T)[];
@@ -88,11 +90,15 @@ function GroupTable<T extends object>({
 	keys,
 	identifier,
 	onDataChange,
+	className,
 	...props
 }: GroupTableProps<T>): React.ReactNode {
 	return (
 		<Table
 			{...props}
+			className={clsx(
+				'h-fit', className,
+			)}
 		>
 			{Object.entries(dataGroup)
 				.map(([groupKey, group]) =>
